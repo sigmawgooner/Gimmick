@@ -11,8 +11,6 @@ export default async (req, res, path) => {
             .filter(([header]) => ['content-type', 'set-cookie'].some(allowedHeader => allowedHeader === header.toLowerCase()))
             .forEach(([header, value]) => res.header(header, value));
 
-            console.log(request);
-
         request.data = request.data.replace(`<head>`, `<head>
             <script>${fs.readFileSync('./src/cheat/bundle.js', 'utf-8')}</script>`);
 
