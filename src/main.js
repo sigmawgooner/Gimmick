@@ -1,28 +1,25 @@
 import axios from 'axios';
 import express from 'express';
-import fs from 'fs';
+import fs from 'node:fs';
 
 import paths from './paths.js';
 
-(async () => {
-    let script = await axios.get(`https://raw.githubusercontent.com/TheLazySquid/GimkitCheat/main/build/bundle.js`);
-    if (!fs.existsSync('./src/cheat')) fs.mkdirSync('./src/cheat');
-    fs.writeFileSync(`./src/cheat/bundle.js`, script.data);
-    
-    const app = express();
+let script = await axios.get(`https://raw.githubusercontent.com/TheLazySquid/GimkitCheat/main/build/bundle.js`);
+fs.writeFileSync(import.meta.dirname + '/bundle.txt', script.data);
 
-    app.use(express.json());
+const app = express();
 
-    app.all(`/*`, async (req, res) => {
-        let path = req.url.split('?')[0];
+app.use(express.json());
 
-        let file = paths.find((pathData) => typeof pathData.match === 'string' ? path === pathData.match : pathData.match.test(path));
-        if (!file) return console.log(`Unknown file for path "${path}"`);
+app.all(`/*`, async (req, res) => {
+    let path = req.url.split('?')[0];
 
-        console.log(`Detected ${path} as ${file.handler}!`);
+    let file = paths.find((pathData) => typeof pathData.match === 'string' ? path === pathData.match : pathData.match.test(path));
+    if (!file) return console.log(`Unknown file for path "${path}"`);
 
-        await (await import(`./routes/${file.handler}.js`)).default(req, res, path);
-    });
+    console.log(`forwarding ${path} to "${file.handler}"`);
 
-    app.listen(6060, () => console.log(`gimmick @ http://localhost:6060`));
-})();
+    await (await import(`./routes/${file.handler}.js`)).default(req, res, path);
+});
+
+app.listen(6060, () => console.log(`gimmick @ http://localhost:6060`));

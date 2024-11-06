@@ -1,14 +1,13 @@
 import axios from 'axios';
 
-export default async (req, res, path) => {
+export default async (_req, res, path) => {
     try {
-        let request = await axios.get(`https://gimkit.com${path}`, {
-            responseType: 'stream'
-        });
+        let request = await axios.get(`https://gimkit.com${path}`, { responseType: 'stream' });
 
-        Object.entries(request.headers)
-            .filter(([header]) => ['content-type', 'set-cookie'].some(allowedHeader => allowedHeader === header.toLowerCase()))
-            .forEach(([header, value]) => res.header(header, value));
+        ['content-type', 'set-cookie'].forEach((header) => {
+            if (request.headers[header])
+                res.header(header, request.headers[header]);
+        });
 
         request.data.pipe(res);
     } catch (e) {

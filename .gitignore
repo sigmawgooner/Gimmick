@@ -1,4 +1,9 @@
-node_modules/
-package-lock.json
-**/.DS_Store
-src/cheat/
+# node content
+node_modules
+bun.lockb
+
+# mac cfg
+.DS_Store
+
+# cached bundle
+src/bundle.txt

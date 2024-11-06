@@ -1,26 +1,20 @@
 <div align="center">
     <h1>gimmick</h1>
-    <h3>a gimkit version for browsers that has cheats built-in.</h3>
+    <h3>a gimkit interface that has cheats built-in.</h3>
     <br>
     <h2>usage</h2>
 </div>
 
-1. Install Node.JS & Git.
+1. Install [Bun](https://bun.sh) & Git.
 2. Clone the repository from Git.
-3. Install dependencies: `npm i`.
-4. Run the program: `npm run start`.
+3. Install dependencies: `bun i`.
+4. Run the program: `bun start`.
 5. Try it! `http://localhost:6060`
 
 <h2 align="center">function</h2>
 
-this "client" embeds [thelazysquid/gimkitcheat](https://github.com/TheLazySquid/GimkitCheat) in the site, allowing you to use it anywhere, even on a Chromebook!<br>
-this repository will automatically update from that bundle, so don't worry about updating!
+this "client" embeds [thelazysquid/gimkitcheat](https://github.com/TheLazySquid/GimkitCheat) in the site, allowing you to use it anywhere, even on a Chromebook! this allows for cheating during class...without the struggle of blocked scripts at all! the repository fetches and "updates" the cheat anytime the program is started, so you can quite simply just run the program and never worry about updating or maintaining anything.
 
 <br>
-<h2 align="center">takedowns</h2>
-
-josh, i understand if you feel this harms your game, and i appreciate the your team does to keep gimkit running :heart:<br>
-i built this for educational purposes, but i'm happy to take it down: just shoot me a friend request and we can chat @ **1ust.js**
-
-<br>
-<h5 align="center">made with ❤️ by <b>1ust</b></h5>
+<h5 align="center">made with ❤️ by <b>VillainsRule</b></h5>
+<h5 align="center">program working smoothly as of 11/6/24 :D</h5>

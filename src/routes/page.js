@@ -1,18 +1,20 @@
 import axios from 'axios';
 import fs from 'fs';
+import npath from 'path';
 
-export default async (req, res, path) => {
+export default async (_req, res, path) => {
     try {
         if (path !== '/join') return res.redirect('/join');
 
         let request = await axios.get(`https://www.gimkit.com/join`);
 
-        Object.entries(request.headers)
-            .filter(([header]) => ['content-type', 'set-cookie'].some(allowedHeader => allowedHeader === header.toLowerCase()))
-            .forEach(([header, value]) => res.header(header, value));
+        ['content-type', 'set-cookie'].forEach((header) => {
+            if (request.headers[header])
+                res.header(header, request.headers[header]);
+        });
 
         request.data = request.data.replace(`<head>`, `<head>
-            <script>${fs.readFileSync('./src/cheat/bundle.js', 'utf-8')}</script>`);
+            <script>${fs.readFileSync(npath.join(import.meta.dirname, '..', 'bundle.txt'), 'utf-8')}</script>`);
 
         res.send(request.data);
     } catch (e) {

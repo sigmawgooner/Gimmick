@@ -1,14 +1,13 @@
 import axios from 'axios';
 
-export default async (req, res, path) => {
+export default async (_req, res, path) => {
     try {
-        let request = await axios.get(`https://gimkit.com${path}`, {
-            responseType: 'arraybuffer'
-        });
+        let request = await axios.get(`https://gimkit.com${path}`, { responseType: 'arraybuffer' });
 
-        Object.entries(request.headers)
-            .filter(([header]) => ['content-type', 'set-cookie'].some(allowedHeader => allowedHeader === header.toLowerCase()))
-            .forEach(([header, value]) => res.header(header, value));
+        ['content-type', 'set-cookie'].forEach((header) => {
+            if (request.headers[header])
+                res.header(header, request.headers[header]);
+        });
 
         res.send(Buffer.from(request.data, 'binary'));
     } catch (e) {

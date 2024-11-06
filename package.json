@@ -1,18 +1,13 @@
 {
     "name": "gimmick",
     "type": "module",
-
+    "main": "src/main.js",
     "scripts": {
-        "start": "node src/main.js",
-        "dev": "npx nodemon -e 'js' --ignore 'src/cheat/' src/main.js"
+        "start": "bun src/main.js",
+        "dev": "bun --watch src/main.js"
     },
-
     "dependencies": {
         "axios": "^1.6.8",
         "express": "^4.19.2"
-    },
-
-    "devDependencies": {
-        "nodemon": "^3.1.0"
     }
 }
