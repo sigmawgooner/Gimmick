@@ -11,10 +11,35 @@
 4. Run the program: `bun start`.
 5. Try it! `http://localhost:6060`
 
+<br>
+<h2 align="center">setup "for dummies" on school computers</h2>
+
+1. create a Github account
+2. go to https://github.com/VillainsRule/Gimmick
+3. click the big green "Code" button, select the "Codespaces" tab, and click "Create codespace on master"
+4. it should open a codespace
+5. in the terminal (where it says /workspaces/Gimmick (master) $), enter the following commands:
+   1. `curl -fsSL https://bun.sh/install | bash`
+   2. `source /home/codespace/.bashrc`
+   3. `bun i`
+   4. `bun start`
+6. go to the ports tab (at the top of the terminal area)
+7. if you intend to share this with friends:
+   1. right click the text that says "6060"
+   2. hover over "port visibility"
+   3. set it to public
+8. now, right click the text that says "6060" and click "open in browser"
+9. click "continue"
+10. enjoy Gimmick!
+
+> [!TIP]
+> press the \ key to toggle the menus
+
+<br>
 <h2 align="center">function</h2>
 
 this "client" embeds [thelazysquid/gimkitcheat](https://github.com/TheLazySquid/GimkitCheat) in the site, allowing you to use it anywhere, even on a Chromebook! this allows for cheating during class...without the struggle of blocked scripts at all! the repository fetches and "updates" the cheat anytime the program is started, so you can quite simply just run the program and never worry about updating or maintaining anything.
 
 <br>
 <h5 align="center">made with ❤️ by <b>VillainsRule</b></h5>
-<h5 align="center">program working smoothly as of 11/6/24 :D</h5>
+<h5 align="center">program working smoothly as of 4/22/25 :D</h5>
