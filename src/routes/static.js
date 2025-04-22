@@ -20,9 +20,6 @@ export default async (req, res, path) => {
                 res.header(header, request.headers[header]);
         });
 
-        if (request.data.replace)
-            request.data.replace(`document.querySelector('meta[property="cdn-map-assets-url"]')`, `{getAttribute:()=>location.origin}`)
-
         res.status(request.status).send(request.data);
     } catch (e) {
         console.error(e, path);

@@ -16,6 +16,8 @@ export default async (_req, res, path) => {
         request.data = request.data.replace(`<head>`, `<head>
             <script>${fs.readFileSync(npath.join(import.meta.dirname, '..', 'bundle.txt'), 'utf-8')}</script>`);
 
+        request.data = request.data.replace(`content="https://www.gimkit.com">`, `content="https://www.gimkit.com"><script>document.querySelector('meta[property="cdn-map-assets-url"]').content = location.origin</script>`)
+
         res.send(request.data);
     } catch (e) {
         console.error(e, path);
