@@ -1,22 +1,38 @@
+import audio from './routes/audio.js';
+import content from './routes/content.js';
+import login from './routes/login.js';
+import page from './routes/page.js';
+import static_ from './routes/static.js';
+
 export default [
     {
         match: /(.*?)\.(png|jpg|jpeg|svg|webm|ico|gif|ttf|otf|atlas)/,
-        handler: 'content'
+        name: 'content',
+        handler: content
     },
     {
         match: /(.*?)\.(mp3|mp4|m4a)/,
-        handler: 'audio'
+        name: 'audio',
+        handler: audio
     },
     {
         match: /(.*?)\.(js|json|css)(.*?)/,
-        handler: 'static'
+        name: 'static',
+        handler: static_
     },
     {
         match: /(pages|api)\/(.*?)/,
-        handler: 'static'
+        name: 'static',
+        handler: static_
+    },
+    {
+        match: /\/\$login(.*?)/,
+        name: 'login',
+        handler: login
     },
     {
         match: /(\/|)/,
-        handler: 'page'
+        name: 'static',
+        handler: page
     }
 ];

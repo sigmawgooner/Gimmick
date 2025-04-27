@@ -1,6 +1,6 @@
 # node content
 node_modules
-bun.lockb
+bun.lock
 
 # mac cfg
 .DS_Store

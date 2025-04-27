@@ -10,6 +10,7 @@ fs.writeFileSync(import.meta.dirname + '/bundle.txt', script.data);
 const app = express();
 
 app.use(express.json());
+app.disable('etag');
 
 app.all(`/*`, async (req, res) => {
     let path = req.url.split('?')[0];
@@ -17,9 +18,9 @@ app.all(`/*`, async (req, res) => {
     let file = paths.find((pathData) => typeof pathData.match === 'string' ? path === pathData.match : pathData.match.test(path));
     if (!file) return console.log(`Unknown file for path "${path}"`);
 
-    console.log(`forwarding ${path} to "${file.handler}"`);
+    console.log(`forwarding ${path} to "${file.name}"`);
 
-    await (await import(`./routes/${file.handler}.js`)).default(req, res, path);
+    file.handler(req, res, path);
 });
 
 app.listen(6060, () => console.log(`gimmick @ http://localhost:6060`));

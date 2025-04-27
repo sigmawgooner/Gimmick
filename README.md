@@ -36,6 +36,21 @@
 > press the \ key to toggle the menus
 
 <br>
+<h2 align="center">logging in</h2>
+
+you can go to the `/$login` page to login.
+
+for example, if you're using `https://my-awesome-codespace.app.github.dev`, go to `https://my-awesome-codespace.app.github.dev/$login`.
+
+you can see everything that is done with your email/password in [this file](./src/routes/login.html) & [this file](./src/routes/login.js) - they are only sent to gimkit.
+
+> [!CAUTION]
+> it is possible for someone running the Gimmick program to modify their program to save your login. only login on websites you trust. if you run Gimmick, your password is 100% safe, but a public Gimmick URL might not be.
+
+> [!NOTE]
+> you cannot use google to login. if you usually use google to login, go to [gimkit.com/settings](https://gimkit.com/settings) and add a password to your account.
+
+<br>
 <h2 align="center">function</h2>
 
 this "client" embeds [thelazysquid/gimkitcheat](https://github.com/TheLazySquid/GimkitCheat) in the site, allowing you to use it anywhere, even on a Chromebook! this allows for cheating during class...without the struggle of blocked scripts at all! the repository fetches and "updates" the cheat anytime the program is started, so you can quite simply just run the program and never worry about updating or maintaining anything.
