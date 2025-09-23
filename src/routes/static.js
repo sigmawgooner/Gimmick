@@ -1,17 +1,14 @@
-import axios from 'axios';
-
 export default async (req, res, path) => {
     try {
-        let request = await axios({
-            url: `https://www.gimkit.com${path}`,
-            method: req.method.toLowerCase(),
-            data: Object.keys(req.body).length < 1 ? null : req.body,
+        const fetchOptions = {
+            method: req.method,
             headers: {
                 accept: '*/*',
                 'accept-encoding': 'gzip, deflate, br, zstd',
                 'accept-language': 'en-US,en;q=0.9',
                 'cache-control': 'no-cache',
                 'connection': 'keep-alive',
+                'content-type': Object.keys(req.body).length < 1 ? undefined : 'application/json',
                 cookie: req.headers.cookie,
                 host: 'www.gimkit.com',
                 origin: 'https://www.gimkit.com',
@@ -26,17 +23,20 @@ export default async (req, res, path) => {
                 'upgrade-insecure-requests': '1',
                 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36'
             },
-            validateStatus: false,
-            timeout: 5000
-        });
+            body: Object.keys(req.body).length < 1 ? undefined : JSON.stringify(req.body),
+            redirect: 'manual'
+        };
+
+        const response = await fetch(`https://www.gimkit.com${path}`, fetchOptions);
 
         ['content-type', 'set-cookie'].forEach((header) => {
-            if (request.headers[header])
-                res.header(header, request.headers[header]);
+            if (response.headers.has(header))
+                res.setHeader(header, response.headers.get(header));
         });
 
-        res.status(request.status).send(request.data);
+        const data = await response.text();
+        res.status(response.status).send(data);
     } catch (e) {
         console.error(e, path);
-    };
+    }
 };

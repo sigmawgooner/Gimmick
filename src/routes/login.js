@@ -1,30 +1,38 @@
-import axios from 'axios';
 import fs from 'fs';
 import npath from 'path';
 
 export default async (req, res, path) => {
     try {
         if (path.endsWith('/post')) {
-            const checkEmail = await axios.post('https://www.gimkit.com/api/users/register/email-info', {
-                email: req.body.email
+            const checkEmailResponse = await fetch('https://www.gimkit.com/api/users/register/email-info', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: req.body.email })
             });
+            const checkEmail = await checkEmailResponse.json();
 
-            if (!checkEmail.data.accountExists) return res.send({ error: 'email does not exist' });
-            if (checkEmail.data.noPassword) return res.send({ error: 'you cannot sign in with a google-based email - add a password from the gimkit settings (gimkit.com/settings)' });
+            if (!checkEmail.accountExists) return res.send({ error: 'email does not exist' });
+            if (checkEmail.noPassword) return res.send({ error: 'you cannot sign in with a google-based email - add a password from the gimkit settings (gimkit.com/settings)' });
 
-            const actuallyLogin = await axios.post('https://www.gimkit.com/api/login', {
-                email: req.body.email,
-                password: req.body.password,
-                googleToken: ''
+            const loginResponse = await fetch('https://www.gimkit.com/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    email: req.body.email,
+                    password: req.body.password,
+                    googleToken: ''
+                })
             });
+            const actuallyLogin = await loginResponse.json();
 
-            if (actuallyLogin.data.message) return res.send({ error: actuallyLogin.data.message.text });
-            if (!actuallyLogin.data.user?._id) {
-                console.log('couldn\'t login', actuallyLogin.data);
+            if (actuallyLogin.message) return res.send({ error: actuallyLogin.message.text });
+            if (!actuallyLogin.user?._id) {
+                console.log('couldn\'t login', actuallyLogin);
                 return res.send({ error: 'unknown error' });
             }
 
-            res.header('set-cookie', actuallyLogin.headers['set-cookie']);
+            const setCookie = loginResponse.headers.get('set-cookie');
+            if (setCookie) res.setHeader('set-cookie', setCookie);
 
             return res.send({ success: true });
         }
@@ -33,5 +41,5 @@ export default async (req, res, path) => {
         res.send(loginPage);
     } catch (e) {
         console.error(e, path);
-    };
+    }
 };

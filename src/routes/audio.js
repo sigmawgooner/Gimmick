@@ -1,16 +1,19 @@
-import axios from 'axios';
+import { pipeline } from 'stream';
+import { promisify } from 'util';
+
+const streamPipeline = promisify(pipeline);
 
 export default async (_req, res, path) => {
     try {
-        let request = await axios.get(`https://gimkit.com${path}`, { responseType: 'stream' });
+        const response = await fetch(`https://gimkit.com${path}`);
 
         ['content-type', 'set-cookie'].forEach((header) => {
-            if (request.headers[header])
-                res.header(header, request.headers[header]);
+            if (response.headers.has(header))
+                res.setHeader(header, response.headers.get(header));
         });
 
-        request.data.pipe(res);
+        await streamPipeline(response.body, res);
     } catch (e) {
         console.error(e, path);
-    };
+    }
 };
